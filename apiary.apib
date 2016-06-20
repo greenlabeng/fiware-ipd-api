@@ -1,0 +1,197 @@
+FORMAT: 1A
+HOST: http://fiwareipdapi.fiware.greenlabeng.com/api/v1
+
+# fiwareipdapi
+
+This is a simple API allowing consumers to query data either realtime and historical
+data from IPD devices.
+
+## Devices Collection [/devices]
+
+### List all available devices [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "device_id": "Milano01",
+                "sitename": "Milan01"
+            },
+            {
+                "device_id": "Milano01",
+                "sitename": "Milan02"
+            }
+        ]
+
+## Instantaneous Measurements Set [/devices/{device_id}/minst]
+
++ Parameters
+    + device_id (string) - ID of the Device in the form of a string
+
+### View the instantaneous set of measurements [GET]
+
++ Response 200 (application/json)
+
+        {
+            "V1":<float>,
+            "V2":<float>,
+            "V3":<float>,
+            "I1":<float>,
+            "I2":<float>,
+            "I3":<float>,
+            "Ip":<float>,
+            "ThdV1":<float>,
+            "ThdV2":<float>,
+            "ThdV3":<float>,
+            "ThdI1":<float>,
+            "ThdI2":<float>,
+            "ThdI3":<float>,
+            "ThdIn":<float>,
+            "Pa1":<float>,
+            "Pa2":<float>,
+            "Pa3":<float>,
+            "Pq1":<float>,
+            "Pq2":<float>,
+            "Pq3":<float>,
+            "PApp1":<float>,
+            "PApp2":<float>,
+            "PApp3":<float>,
+            "FPot1":<float>,
+            "FPot2":<float>,
+            "FPot3":<float>,
+            "Freq1":<float>,
+            "Freq2":<float>,
+            "Freq3":<float>
+        }
+
+
+## Historical Measurements Set [/devices/{device_id}/mhist{?from,to}]
+
++ Parameters
+    + device_id (string) - ID of the Device in the form of a string
+
+### View the historical set of primary measurements [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "Instant":  <ISO8601 timestamp>
+                "V1":<float>,
+                "V2":<float>,
+                "V3":<float>,
+                "I1":<float>,
+                "I2":<float>,
+                "I3":<float>,
+                "Ip":<float>,
+                "ThdV1":<float>,
+                "ThdV2":<float>,
+                "ThdV3":<float>,
+                "ThdI1":<float>,
+                "ThdI2":<float>,
+                "ThdI3":<float>,
+                "ThdIn":<float>,
+                "Pa1":<float>,
+                "Pa2":<float>,
+                "Pa3":<float>,
+                "Pq1":<float>,
+                "Pq2":<float>,
+                "Pq3":<float>,
+                "PApp1":<float>,
+                "PApp2":<float>,
+                "PApp3":<float>,
+                "FPot1":<float>,
+                "FPot2":<float>,
+                "FPot3":<float>,
+                "Freq1":<float>,
+                "Freq2":<float>,
+                "Freq3":<float>
+            },
+            {
+                "Instant":  <ISO8601 timestamp>
+                "V1":<float>,
+                "V2":<float>,
+                "V3":<float>,
+                "I1":<float>,
+                "I2":<float>,
+                "I3":<float>,
+                "Ip":<float>,
+                "ThdV1":<float>,
+                "ThdV2":<float>,
+                "ThdV3":<float>,
+                "ThdI1":<float>,
+                "ThdI2":<float>,
+                "ThdI3":<float>,
+                "ThdIn":<float>,
+                "Pa1":<float>,
+                "Pa2":<float>,
+                "Pa3":<float>,
+                "Pq1":<float>,
+                "Pq2":<float>,
+                "Pq3":<float>,
+                "PApp1":<float>,
+                "PApp2":<float>,
+                "PApp3":<float>,
+                "FPot1":<float>,
+                "FPot2":<float>,
+                "FPot3":<float>,
+                "Freq1":<float>,
+                "Freq2":<float>,
+                "Freq3":<float>
+            }
+        ]
+
+## Device's Time [/devices/{device_id}/time]
+
++ Parameters
+    + device_id (string) - ID of the Device in the form of a string
+
+### View an IPD's date and time information [GET]
+
++ Response 200 (application/json)
+
+        {
+            "IpdDate":<date>,
+            "IpdTime":<time>,
+            "UpTime":<ulong>
+        }
+        
+## Device's Identification Data [/devices/{device_id}/ident]
+
++ Parameters
+    + device_id (string) - ID of the Device in the form of a string
+
+### View an IPD's identification data [GET]
+
++ Response 200 (application/json)
+
+        {
+            "Manufacturer":<uchar>,
+            "Year":<uchar>,
+            "Device":<uchar>,
+            "Serial":<ulong>,
+            "Sim":<24*uchar>,
+            "Tel.Sim":<16*uchar>,
+            "RevHw":<uchar>,
+            "RevHwSec":<uchar>,
+            "DateRevHw":<date>,
+            "RevSw":<uchar>,
+            "RevSwSec":<uchar>,
+            "DateRevSw":<date>,
+            "LastDownload":<date>
+        }
+
+## Device's Installation Data [/devices/{device_id}/inst]
+
+### View an IPD's identification data [GET]
+
++ Response 200 (application/json)
+
+        {
+            "InstType":<uchar>,
+            "PosGpsLat":<[3*uint]>,
+            "PosGpsLon":<[3*uint]>,"PosGpsAlt":<uint>,
+            "kTAPrinc":<uint>,
+            "kTADeriv":<uint>,
+            "InstDate":<date>
+        }
