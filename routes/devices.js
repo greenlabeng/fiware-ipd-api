@@ -17,15 +17,18 @@ var orionClient = new Orion.Client({
 var normalizeContextData = function(contextData) {
   var normalizedContextData = [];
 
-  if (Array.isArray(contextData)) {
-    normalizedContextData = contextData.map(function(data) {
-      return {
-        device_id: data.id,
-        sitename: data.SiteName.value
-      }
-    })
-  } else if (contextData) {
-    normalizedContextData.push({ device_id: contextData.id, sitename: contextData.SiteName.value });
+  var filter = function(data) {
+    return {
+      device_id: data.id,
+      sitename: data.SiteName.value
+    }
+  }
+
+  if (contextData && !Array.isArray(contextData)) {
+    normalizedContextData.push(filter(contextData));
+  }
+  else if (Array.isArray(contextData)) {
+    normalizedContextData = contextData.map(filter);
   }
 
   return normalizedContextData;
