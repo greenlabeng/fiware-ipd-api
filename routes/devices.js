@@ -17,18 +17,11 @@ var orionClient = new Orion.Client({
 var normalizeContextData = function(contextData) {
   var normalizedContextData = [];
 
-  var filter = function(data) {
-    return {
-      device_id: data.id,
-      sitename: data.SiteName.value
-    }
-  }
-
   if (contextData && !Array.isArray(contextData)) {
-    normalizedContextData.push(filter(contextData));
+    normalizedContextData.push(contextData);
   }
   else if (Array.isArray(contextData)) {
-    normalizedContextData = contextData.map(filter);
+    normalizedContextData = contextData;
   }
 
   return normalizedContextData;
@@ -40,9 +33,16 @@ router.get('/', function(req, res, next) {
     type: 'thing',
   }
 
+  var filter = function(data) {
+    return {
+      device_id: data.id,
+      sitename: data.SiteName.value
+    }
+  }
+
   orionClient.queryContext(queryOptions).then(function(contextData) {
     console.log('Context data:', JSON.stringify(contextData));
-    res.send(normalizeContextData(contextData));
+    res.send(normalizeContextData(contextData).map(filter));
   }, function(err) {
     console.log('Error querying context: ', error);
   })
