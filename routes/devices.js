@@ -11,6 +11,26 @@ var orionClient = new Orion.Client({
   timeout: 5000
 });
 
+/* enforce into an array contextData returned by fiware-orion-client
+ * which is not the case as per how fiware-orion-client behaves
+ */
+var normalizeContextData = function(contextData) {
+  var normalizedContextData = [];
+
+  if (Array.isArray(contextData)) {
+    normalizedContextData = contextData.map(function(data) {
+      return {
+        device_id: data.id,
+        sitename: data.SiteName.value
+      }
+    })
+  } else if (contextData) {
+    normalizedContextData.push({ device_id: contextData.id, sitename: contextData.SiteName.value });
+  }
+
+  return normalizedContextData;
+}
+
 /* GET devices listing. */
 router.get('/', function(req, res, next) {
   var queryOptions = {
@@ -18,22 +38,8 @@ router.get('/', function(req, res, next) {
   }
 
   orionClient.queryContext(queryOptions).then(function(contextData) {
-    console.log('Context data', JSON.stringify(contextData));
-
-    var filteredData = [];
-    if (Array.isArray(contextData)) {
-      console.log('array');
-      filteredData = contextData.map(function(data) {
-        return {
-          device_id: data.id,
-          sitename: data.SiteName.value
-        }
-      })
-    } else if (contextData) {
-      console.log('not array');
-      filteredData.push({ device_id: contextData.id, sitename: contextData.SiteName.value });
-    }
-    res.send(filteredData);
+    console.log('Context data:', JSON.stringify(contextData));
+    res.send(normalizeContextData(contextData));
   }, function(err) {
     console.log('Error querying context: ', error);
   })
