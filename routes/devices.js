@@ -11,12 +11,12 @@ var orionClient = new Orion.Client({
   timeout: 5000
 });
 
-var queryOptions = {
-  type: 'thing',
-}
-
 /* GET devices listing. */
 router.get('/', function(req, res, next) {
+  var queryOptions = {
+    type: 'thing',
+  }
+
   orionClient.queryContext(queryOptions).then(function(contextData) {
     console.log('Context data', JSON.stringify(contextData));
 
