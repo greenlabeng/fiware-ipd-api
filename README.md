@@ -13,4 +13,5 @@ Start as follow:
 
 Test like this:
 
-    curl http://localhost:3000/api/v1/devices/thing-px2
+    curl http://localhost:3000/api/v1/devices
+    curl http://localhost:3000/api/v1/devices/thing-px2/minst
