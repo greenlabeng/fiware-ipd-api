@@ -49,7 +49,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET Instantaneous Measurements Set. */
-router.get('/:device_id', function(req, res, next) {
+router.get('/:device_id/minst', function(req, res, next) {
 
   var queryOptions = {
     type: 'thing',
